@@ -7,7 +7,20 @@
 
         
         <style>
+            .output {
+                display: flex;
+                align-items: center;
+            
+            }
 
+            .card {
+                width: 300px;
+                margin: 10px;
+                padding: 10px;
+
+                border: 2px solid black;
+                border-radius: 16px;
+            }
         </style>
     </head>
 
@@ -28,28 +41,34 @@
                 </button>
 
 
-                <select>
-                    <option>
-                        1
+                <select id="search">
+                    <option value="teacher">
+                        Teacher
                     </option>
-                    <option>
-                        1
+                    <option value="engineer">
+                        Engineer
                     </option>
-                    <option>
-                        1
+                    <option value="designer">
+                        Designer
+                    </option>
+                    <option value="doctor">
+                        Doctor
                     </option>
                 </select>
 
-                <button onclick="writeAll()">
+                <button onclick="writeSome()">
                     Søk
                 </button>
             </div>
 
-            <p id="output"></p>
+            <div id="output" class="output"></div>
         </main>
 
 
         <script>
+            let output = document.getElementById("output");
+
+
             let people = [
         {
             id: 1,
@@ -173,12 +192,132 @@
         }
         ];
 
+        let num = 0;
 
+        function writeAll() {
+            output.innerHTML = "";
+            num = 0;
+            
+            output.innerHTML += people.map(printOut)
+        }
+
+        function writeSome() {
+            output.innerHTML = "";
+            num = 0;
+
+            output.innerHTML = people.map(printOut2)
+        }
+
+
+        function printOut() {
+            let text = "";
+
+            for (let i = 0; i < people.length; i++) {
+                if (people[i].id == num + 1) {
+                    text = `
+                    <div class="card"> 
+                        <div>
+                            <h1>
+                                ${people[i].name}, ${people[i].age}
+                            </h1>
+                            <h2>
+                                ${people[i].occupation}
+                            </h2>
+                            <p> 
+                                ${people[i].address.city}, ${people[i].address.country}
+                            </p>
+
+                            <p> 
+                                ${people[i].contact.email}, ${people[i].contact.phone}
+                            </p>
+                        </div>
+                        <div>
+                            <h1>
+                                ${cars[i].make} ${cars[i].model}
+                            </h1>
+                            <em>
+                                ${cars[i].year}
+                            </em>
+                            <p> 
+                                ${cars[i].specs.color}, ${cars[i].specs.engine}, ${cars[i].specs.transmission}
+                            </p>
+                        </div>
+                    </div>
+                    `
+                }
+            }
+
+            num ++
+            return text
+        }
+
+        function printOut2() {
+            let text = "";
+            let search = document.getElementById("search").value;
+
+            for (let i = 0; i < people.length; i++) {
+                if (people[i].id == num + 1) {
+                    if (people[i].occupation.toLowerCase() == search) {
+                        text = `
+                        <div class="card"> 
+                            <div>
+                                <h1>
+                                    ${people[i].name}, ${people[i].age}
+                                </h1>
+                                <h2>
+                                    ${people[i].occupation}
+                                </h2>
+                                <p> 
+                                    ${people[i].address.city}, ${people[i].address.country}
+                                </p>
+
+                                <p> 
+                                    ${people[i].contact.email}, ${people[i].contact.phone}
+                                </p>
+                            </div>
+                            <div>
+                                <h1>
+                                    ${cars[i].make} ${cars[i].model}
+                                </h1>
+                                <em>
+                                    ${cars[i].year}
+                                </em>
+                                <p> 
+                                    ${cars[i].specs.color}, ${cars[i].specs.engine}, ${cars[i].specs.transmission}
+                                </p>
+                            </div>
+                        </div>
+                        `
+                    }
+                }
+            }
+
+            num ++
+            return text
+        }
+
+
+        function printText() {
+
+        }
         /*
 
         Create custom cards that have names, occupation, city address, vehicle and contact information in that order. 
         Use .filter to search for a specific person
 
+
+        id: 4,
+            name: "Diana",
+            age: 28,
+            occupation: "Doctor",
+            contact: {
+            email: "diana@example.com",
+            phone: "222-333-4444"
+            },
+            address: {
+            city: "Houston",
+            country: "USA"
+            }
         */
         </script>
     </body>
